@@ -1,4 +1,4 @@
-#!/usr/bin/python2.5
+#!/usr/bin/env python2
 
 # Copyright (C) 2007 Google Inc.
 #
@@ -20,7 +20,7 @@ An example application that uses the transitfeed module.
 You must provide a Google Maps API key.
 """
 
-
+import json
 import BaseHTTPServer, sys, urlparse
 import bisect
 from gtfsscheduleviewer.marey_graph import MareyGraph
@@ -29,7 +29,6 @@ import mimetypes
 import os.path
 import re
 import signal
-import simplejson
 import socket
 import time
 import transitfeed
@@ -46,7 +45,7 @@ if hasattr(signal, 'SIGBREAK'):
 mimetypes.add_type('text/plain', '.vbs')
 
 
-class ResultEncoder(simplejson.JSONEncoder):
+class ResultEncoder(json.JSONEncoder):
   def default(self, obj):
     try:
       iterable = iter(obj)
@@ -54,7 +53,7 @@ class ResultEncoder(simplejson.JSONEncoder):
       pass
     else:
       return list(iterable)
-    return simplejson.JSONEncoder.default(self, obj)
+    return json.JSONEncoder.default(self, obj)
 
 # Code taken from
 # http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/425210/index_txt
